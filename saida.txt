@@ -1,0 +1,9 @@
+Escalonador iniciado
+Novo processo prog PR=4
+->prog
+Novo processo  prog PR=7
+->prog
+Novo processo  prog PR=1
+->prog
+Novo processo  prog PR=1
+->prog

@@ -1,0 +1,5 @@
+exec prog1 PR=4
+exec prog2 PR=7
+exec prog3 PR=1
+
+
