@@ -1,0 +1,240 @@
+Pedro Ferreira Alves Pinto 1320981
+
+ Foi criado um interpretador e um escalonador com as politicas de round-robin, real-time e prioridade.
+
+ O nome do executavel do escalonador deve ser "escalondor", para que possa ser executado pelo interpretador e deve se encontrar no mesmo diretorio que ele.
+
+ A saida se encontra no arquivo saida.txt, nela se encontra as informaçoes referentes a execucao do programa.
+
+ A lista de programas a serem executados assim como o tipo de escalonamento daquele processo se encontra em exec.txt. 
+
+ OBS: Para a adicao de um processo que seja real-time, o valor tanto a duracao quanto o inicio deve ter 2 digitos(ex: 02, 30, 01).
+
+------------------------------------------------------------------------------------------------------
+
+ Foram criados ao todo 6 programas para testes:
+
+prog1:
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int i;
+
+	for(i=0; i<10; i++)
+	{
+		printf("prog1\n");
+		fflush(stdout);
+		sleep(1);
+	}
+
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+
+prog2:
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int i;
+
+	for(i=0; i<10; i++)
+	{
+		printf("prog2\n");
+		fflush(stdout);
+		sleep(1);
+	}
+
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+
+prog3:
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int i;
+
+	for(i=0; i<10; i++)
+	{
+		printf("prog3\n");
+		fflush(stdout);
+		sleep(1);
+	}
+
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+
+prog4:
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int i;
+
+	for(i=0; i<10; i++)
+	{
+		printf("prog4\n");
+		fflush(stdout);
+		sleep(1);
+	}
+
+	return 0;
+}
+------------------------------------------------------------------------------------------------------
+
+prog5:
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int i;
+
+	for(i=0; i<10; i++)
+	{
+		printf("prog5\n");
+		fflush(stdout);
+		sleep(1);
+	}
+
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+
+prog6:
+#include <stdio.h>
+#include <unistd.h>
+
+int main()
+{
+	int i;
+	int fatorial = 1;
+
+	for(i=5; i>0; i--)
+	{
+		printf("itercao %d %d\n", 5-i, fatorial);
+		fflush(stdout);
+		fatorial *= i;
+		sleep(0.5);
+	}
+
+	return 0;
+}
+
+------------------------------------------------------------------------------------------------------
+
+A ordem de entrada foi a seguinte:
+
+exec prog1 P=5
+exec prog2
+exec prog3 P=1
+exec prog4 I=10 D=07
+exec prog5 I=30 D=11
+exec prog6
+
+e sua saida: 
+OBS: As linhas sem "->" sao os prints dos programas auxiliares
+
+-> Escalonador iniciado
+-> Novo processo prog1 P=5
+-> prog1 recebido no escalonador
+-> Prioridade inserida com PID 15095
+prog1
+-> Novo processo  prog2
+-> prog2 recebido no escalonador
+-> Round-Robin inserido com PID 15096
+prog1
+-> Novo processo  prog3 P=1
+-> prog3 recebido no escalonador
+-> Prioridade inserida com PID 15098
+-> Prioridade maior foi inserida
+prog3
+-> Novo processo  prog4 I=10 D=07
+-> prog4 recebido no escalonador
+-> Real-Time inserido com PID 15101
+-> Faltam 10s para proxima execucao 
+-> Novo processo  prog5 I=30 D=11
+-> prog5 recebido no escalonador
+-> Real-Time inserido com PID 15102
+prog4
+-> Novo processo  prog6
+prog4
+-> prog6 recebido no escalonador
+-> Round-Robin inserido com PID 15104
+-> Faltam 13s para proxima execucao 
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+Processo 15102 finalizado
+-> Faltam 19s para o fim do minuto
+-> Faltam 10s para proxima execucao 
+prog4
+prog4
+prog4
+prog4
+prog4
+prog4
+prog4
+-> Faltam 43s para o fim do minuto
+-> Faltam 10s para proxima execucao 
+prog4
+Processo 15101 finalizado
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+Processo 15098 finalizado
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+Processo 15095 finalizado
+prog2
+itercao 0 1
+itercao 1 5
+itercao 2 20
+itercao 3 60
+itercao 4 120
+Processo 15104 finalizado
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+Processo 15096 finalizado
+
+------------------------------------------------------------------------------------------------------
+
+ O resultado esta como o esperado. As prioridades de escalonamento foram respeitadas e os programas sao interrompidos e continuados como o esperado.

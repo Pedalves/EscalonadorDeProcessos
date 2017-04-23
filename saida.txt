@@ -1,28 +1,80 @@
 -> Escalonador iniciado
--> Novo processo prog1
+-> Novo processo prog1 P=5
 -> prog1 recebido no escalonador
--> Round-Robin inserido
--> Novo processo  prog2 I=10 D=07
+-> Prioridade inserida com PID 15095
+prog1
+-> Novo processo  prog2
 -> prog2 recebido no escalonador
--> Real-Time inserido
--> Faltam 10s para proxima execucao 
--> Novo processo  prog3 I=30 D=11
+-> Round-Robin inserido com PID 15096
+prog1
+-> Novo processo  prog3 P=1
 -> prog3 recebido no escalonador
--> Real-Time inserido
+-> Prioridade inserida com PID 15098
+-> Prioridade maior foi inserida
+prog3
+-> Novo processo  prog4 I=10 D=07
+-> prog4 recebido no escalonador
+-> Real-Time inserido com PID 15101
+-> Faltam 10s para proxima execucao 
+-> Novo processo  prog5 I=30 D=11
+-> prog5 recebido no escalonador
+-> Real-Time inserido com PID 15102
+prog4
+-> Novo processo  prog6
+prog4
+-> prog6 recebido no escalonador
+-> Round-Robin inserido com PID 15104
 -> Faltam 13s para proxima execucao 
-prog3
-prog3
-prog3
-prog3
-prog3
-prog3
-prog3
-prog3
-prog3
-prog3
-Processo 13940 finalizado
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+prog5
+Processo 15102 finalizado
 -> Faltam 19s para o fim do minuto
 -> Faltam 10s para proxima execucao 
+prog4
+prog4
+prog4
+prog4
+prog4
+prog4
+prog4
+-> Faltam 43s para o fim do minuto
+-> Faltam 10s para proxima execucao 
+prog4
+Processo 15101 finalizado
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+Processo 15098 finalizado
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+Processo 15095 finalizado
+prog2
+itercao 0 1
+itercao 1 5
+itercao 2 20
+itercao 3 60
+itercao 4 120
+Processo 15104 finalizado
 prog2
 prog2
 prog2
@@ -32,16 +84,4 @@ prog2
 prog2
 prog2
 prog2
-prog2
-Processo 13938 finalizado
-prog1
-prog1
-prog1
-prog1
-prog1
-prog1
-prog1
-prog1
-prog1
-prog1
-Processo 13937 finalizado
+Processo 15096 finalizado

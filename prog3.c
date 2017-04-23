@@ -8,6 +8,7 @@ int main()
 	for(i=0; i<10; i++)
 	{
 		printf("prog3\n");
+		fflush(stdout);
 		sleep(1);
 	}
 
