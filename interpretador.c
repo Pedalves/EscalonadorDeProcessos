@@ -97,7 +97,7 @@ int main(void) {
 
 	fileExec = openFile("exec.txt", O_RDONLY); // Abre arquivo para leitura
 	fileIN = openFile("entrada.txt", O_RDONLY); // Abre arquivo para leitura
-	//fileOUT = openFile("saida.txt", O_CREAT|O_RDWR|O_TRUNC); // Abre arquivo para escrita
+	fileOUT = openFile("saida.txt", O_CREAT|O_RDWR|O_TRUNC); // Abre arquivo para escrita
 
 	signal(SIGINT, endHandler);
 
@@ -113,16 +113,16 @@ int main(void) {
 		exit(-1);
 	}
 
-	// if(dup2(fileOUT, 1) == -1) { // redireciona stdout para arquivo de saída
-	// 	printf("Nao foi possivel redirecionar o stdout para arquivo de saida\n");
-	// 	fflush(stdout);
-	// 	exit(-1);
-	// }
-	// if(dup2(fileOUT, 2) == -1) { // redireciona stderr para arquivo de saída
-	// 	printf("Nao foi possivel redirecionar o stderr para arquivo de saida\n");
-	// 	fflush(stdout);
-	// 	exit(-1);
-	// }
+	if(dup2(fileOUT, 1) == -1) { // redireciona stdout para arquivo de saída
+		printf("Nao foi possivel redirecionar o stdout para arquivo de saida\n");
+		fflush(stdout);
+		exit(-1);
+	}
+	if(dup2(fileOUT, 2) == -1) { // redireciona stderr para arquivo de saída
+		printf("Nao foi possivel redirecionar o stderr para arquivo de saida\n");
+		fflush(stdout);
+		exit(-1);
+	}
 
 	close(fd[1]); // fecha pipe de escrita
 

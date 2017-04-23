@@ -1,7 +1,47 @@
 -> Escalonador iniciado
-[INFO] Processo prog1 enviado ao escalonador
+-> Novo processo prog1
 -> prog1 recebido no escalonador
 -> Round-Robin inserido
-[INFO] Processo prog2 enviado ao escalonador
+-> Novo processo  prog2 I=10 D=07
 -> prog2 recebido no escalonador
--> Round-Robin inserido
+-> Real-Time inserido
+-> Faltam 10s para proxima execucao 
+-> Novo processo  prog3 I=30 D=11
+-> prog3 recebido no escalonador
+-> Real-Time inserido
+-> Faltam 13s para proxima execucao 
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+prog3
+Processo 13940 finalizado
+-> Faltam 19s para o fim do minuto
+-> Faltam 10s para proxima execucao 
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+prog2
+Processo 13938 finalizado
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+prog1
+Processo 13937 finalizado

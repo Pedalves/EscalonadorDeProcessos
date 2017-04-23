@@ -1,3 +1,6 @@
-exec prog1
-exec prog2 PR=3
-exec prog3 PR=1
+exec prog1 P=5
+exec prog2
+exec prog3 P=1
+exec prog4 I=10 D=07
+exec prog5 I=30 D=11
+
