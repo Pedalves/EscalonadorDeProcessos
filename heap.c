@@ -5,11 +5,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _processo {
-	float prioridade;
-	pid_t processo;
-}Processo;
-
 struct _heap {
 	int max;             /* tamanho maximo do heap */
 	int pos;             /* proxima posicao disponivel no vetor */
@@ -92,7 +87,7 @@ Heap* heap_libera(Heap* heap)
 }
 
 
-int heap_insere(Heap* heap, float prioridade, pid_t processo)
+int heap_insere(Heap* heap, int prioridade, pid_t processo)
 {
 	if (heap->pos < heap->max)
 	{
@@ -111,18 +106,18 @@ int heap_insere(Heap* heap, float prioridade, pid_t processo)
 
 
 
-pid_t heap_remove(Heap* heap)
+Processo* heap_remove(Heap* heap)
 {
 	if (heap->pos > 0)
 	{
-		pid_t topo = heap->prioridade[0]->processo;
+		Processo* topo = heap->prioridade[0];
 		heap->prioridade[0] = heap->prioridade[heap->pos - 1];
 		heap->pos--;
 		corrige_abaixo(heap);
 		return topo;
 	}
 	else
-		return -1;
+		return NULL;
 }
 
 
@@ -136,3 +131,7 @@ void heap_show(Heap* heap, char* title) {
 
 }
 
+int heap_prioridade(Heap* heap)
+{
+	return heap->pos ? heap->prioridade[0]->prioridade : -1;
+}

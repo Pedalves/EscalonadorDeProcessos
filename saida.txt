@@ -1,9 +1,7 @@
-Escalonador iniciado
-Novo processo prog PR=4
-->prog
-Novo processo  prog PR=7
-->prog
-Novo processo  prog PR=1
-->prog
-Novo processo  prog PR=1
-->prog
+-> Escalonador iniciado
+[INFO] Processo prog1 enviado ao escalonador
+-> prog1 recebido no escalonador
+-> Round-Robin inserido
+[INFO] Processo prog2 enviado ao escalonador
+-> prog2 recebido no escalonador
+-> Round-Robin inserido

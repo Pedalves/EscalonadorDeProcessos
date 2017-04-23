@@ -8,9 +8,9 @@
 #include <string.h>
 
 int fileExec, fileIN, fileOUT; // arquivos de execução, entrada e saída
-int pidEscalonador = -1; // PID do escalonador
+int pidEscalonador = -1;
 
-int segmentoNomePrograma; // segmento para disparo de novos processos no escalonador
+int shmProcesso; // segmento para disparo de novos processos no escalonador
 
 int openFile(char *name, int type) 
 {
@@ -31,11 +31,11 @@ void endHandler(int signal)
 		kill(SIGINT, pidEscalonador); // Encerra escalonador
 	}
 
-	close(fileExec); // Fecha arquivo de execução
-	close(fileIN); // Fecha arquivo de entrada
-	close(fileOUT); // Fecha arquivo de saída
+	close(fileExec);
+	close(fileIN);
+	close(fileOUT);
 
-	shmctl(segmentoNomePrograma, IPC_RMID, 0); // Libera memória compartilhada
+	shmctl(shmProcesso, IPC_RMID, 0); // Libera memória compartilhada
 
 	exit(0);
 }
@@ -43,7 +43,7 @@ void endHandler(int signal)
 void criaProcessoEscalonador(int fd[2]) {
 	char argNomePrograma[11];
 
-	segmentoNomePrograma = shmget(IPC_PRIVATE, sizeof(char) * 1024, IPC_CREAT|IPC_EXCL|S_IRUSR|S_IWUSR);
+	shmProcesso = shmget(IPC_PRIVATE, sizeof(char) * 1024, IPC_CREAT|IPC_EXCL|S_IRUSR|S_IWUSR);
 
 	pidEscalonador = fork(); // cria processo para o escalonador
 	if(pidEscalonador == 0) // escalonador
@@ -51,7 +51,7 @@ void criaProcessoEscalonador(int fd[2]) {
 		close(fd[0]); // fecha pipe de leitura
 		dup2(fd[1], 1); // redireciona stdout para pipe de escrita
 
-		snprintf(argNomePrograma, 11, "%d", segmentoNomePrograma);
+		snprintf(argNomePrograma, 11, "%d", shmProcesso);
 		char * execEscalonador[] = {"./escalonador", argNomePrograma, NULL};
 		execve("./escalonador", execEscalonador, 0);
 		exit(0);
@@ -69,13 +69,13 @@ void adicionaProcessos() {
 	int cnt = 0, i, len;
 	char *nomeProcesso;
 
-	nomeProcesso = (char *) shmat(segmentoNomePrograma, 0, 0);
+	nomeProcesso = (char *) shmat(shmProcesso, 0, 0);
 
 	while(read(fileExec,&buffer[cnt],1) != 0) {
 		if(buffer[cnt] == '\n' && cnt > 1) {
 			buffer[cnt] = '\0';
 			strcpy(nomeProcesso, &buffer[5]);
-			printf("Novo processo %s\n", nomeProcesso);
+			printf("-> Novo processo %s\n", nomeProcesso);
 			fflush(stdout);
 
 			len = strlen(nomeProcesso);
@@ -97,7 +97,7 @@ int main(void) {
 
 	fileExec = openFile("exec.txt", O_RDONLY); // Abre arquivo para leitura
 	fileIN = openFile("entrada.txt", O_RDONLY); // Abre arquivo para leitura
-	fileOUT = openFile("saida.txt", O_CREAT|O_RDWR|O_TRUNC); // Abre arquivo para escrita
+	//fileOUT = openFile("saida.txt", O_CREAT|O_RDWR|O_TRUNC); // Abre arquivo para escrita
 
 	signal(SIGINT, endHandler);
 
@@ -113,16 +113,16 @@ int main(void) {
 		exit(-1);
 	}
 
-	if(dup2(fileOUT, 1) == -1) { // redireciona stdout para arquivo de saída
-		printf("[ERRO] Nao foi possivel redirecionar o stdout para arquivo de saida\n");
-		fflush(stdout);
-		exit(-1);
-	}
-	if(dup2(fileOUT, 2) == -1) { // redireciona stderr para arquivo de saída
-		printf("[ERRO] Nao foi possivel redirecionar o stderr para arquivo de saida\n");
-		fflush(stdout);
-		exit(-1);
-	}
+	// if(dup2(fileOUT, 1) == -1) { // redireciona stdout para arquivo de saída
+	// 	printf("Nao foi possivel redirecionar o stdout para arquivo de saida\n");
+	// 	fflush(stdout);
+	// 	exit(-1);
+	// }
+	// if(dup2(fileOUT, 2) == -1) { // redireciona stderr para arquivo de saída
+	// 	printf("Nao foi possivel redirecionar o stderr para arquivo de saida\n");
+	// 	fflush(stdout);
+	// 	exit(-1);
+	// }
 
 	close(fd[1]); // fecha pipe de escrita
 
@@ -135,7 +135,7 @@ int main(void) {
 	close(fileIN);
 	close(fileOUT);
 
-	shmctl(segmentoNomePrograma, IPC_RMID, 0);
+	shmctl(shmProcesso, IPC_RMID, 0);
 
 	return 0;
 }
