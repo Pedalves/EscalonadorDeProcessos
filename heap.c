@@ -7,7 +7,7 @@
 
 typedef struct _processo {
 	float prioridade;
-	char* processo;
+	pid_t processo;
 }Processo;
 
 struct _heap {
@@ -92,7 +92,7 @@ Heap* heap_libera(Heap* heap)
 }
 
 
-int heap_insere(Heap* heap, float prioridade, char* processo)
+int heap_insere(Heap* heap, float prioridade, pid_t processo)
 {
 	if (heap->pos < heap->max)
 	{
@@ -111,18 +111,18 @@ int heap_insere(Heap* heap, float prioridade, char* processo)
 
 
 
-char* heap_remove(Heap* heap)
+pid_t heap_remove(Heap* heap)
 {
 	if (heap->pos > 0)
 	{
-		char* topo = heap->prioridade[0]->processo;
+		pid_t topo = heap->prioridade[0]->processo;
 		heap->prioridade[0] = heap->prioridade[heap->pos - 1];
 		heap->pos--;
 		corrige_abaixo(heap);
 		return topo;
 	}
 	else
-		return NULL;
+		return -1;
 }
 
 
@@ -131,7 +131,7 @@ void heap_show(Heap* heap, char* title) {
 	int i;
 	printf("%s={", title);
 	for (i = 0; i<heap->pos; i++)
-		printf("%g %s,", heap->prioridade[i]->prioridade, heap->prioridade[i]->processo);
+		printf("%g %d,", heap->prioridade[i]->prioridade, heap->prioridade[i]->processo);
 	printf("}\n");
 
 }

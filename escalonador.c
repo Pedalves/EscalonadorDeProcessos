@@ -7,9 +7,9 @@
 
 #define MAX 30 
 
-void addPrioridade(char* prog, int prioridade)
+pid_t addPrioridade(char* prog, int prioridade)
 {
-	/*char* vet3[] = {prog, NULL};	
+	char* vet3[] = {prog, NULL};	
 	pid_t pid;
 
 	if ((pid = fork()) < 0) 
@@ -22,14 +22,30 @@ void addPrioridade(char* prog, int prioridade)
 		execv("prog1", vet1);
 		exit(1);
 	}
-	kill(pid, SIGSTOP);*/
+	kill(pid, SIGSTOP);
+
+	return pid;
 }
 
 int main()
 {
-	int PRIORIDADE = 0, ROUND-ROBIN = 0, REAL-TIME = 0;
+	int PRIORIDADE = 0, ROUND-ROBIN = 0, REAL-TIME = 0;	
 
+	// REAL-TIME
+	pid_t pidPrioridade = -1
+	
+	// PRIORIDADE
 	Heap* heapPrioridade = heap_cria(MAX);
+	pid_t pidPrioridade = -1;	
+	
+	// ROUND-ROBIN
+	pid_t roundRobin[MAX]; 
+	int numberRR = 0, currRR = 0;
+
+	int i;
+
+	for(i = 0; i<MAX; i++)
+		roudRobin[i] = -1;	
 
 	while(true)
 	{
@@ -39,13 +55,20 @@ int main()
 		}
 		else if(PRIORIDADE)
 		{
-			//termina o processo corrente ou continua lendo do interpretador?
+			heap_remove(heapPrioridade);
 		}
 		else if(ROUND-ROBIN)
 		{
+			kill(roundRobin[currRR], SIGCONT);
+			sleep(0.5);
+			kill(roundRobin[currRR], SIGSTOP);
 
+			if(currRR < numberRR)
+				currRR++;
+			else
+				currRR = 0;
 		}
 	}	
-	
+
 	return 0;
 }
